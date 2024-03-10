@@ -29,4 +29,8 @@ python3 generate_data.py
 5. Run training
 ```
 python3 main.py --config configs/config_file_name.yaml 
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> 4622bc85b80071380e9e15dd3aa4af6f21dd668b
