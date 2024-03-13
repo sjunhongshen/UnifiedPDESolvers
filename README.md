@@ -1,6 +1,6 @@
 # UnifiedPDESolvers
 
-Original PyTorch implementation of UPS proposed in the paper "[UPS: Towards Building Foundation Models for PDE Solving via Cross-Modal Adaptation](https://arxiv.org/)". UPS is developed for solving diverse spatiotemporal PDEs defined over various domains, dimensions, and resolutions. It unifies different PDEs into a consistent representation space and processes diverse collections of PDE data using a unified network architecture that combines LLMs with domain-specific neural operators.
+Original PyTorch implementation of UPS proposed in the paper "[UPS: Towards Building Foundation Models for PDE Solving via Cross-Modal Adaptation](https://arxiv.org/abs/2403.07187)". UPS is developed for solving diverse spatiotemporal PDEs defined over various domains, dimensions, and resolutions. It unifies different PDEs into a consistent representation space and processes diverse collections of PDE data using a unified network architecture that combines LLMs with domain-specific neural operators.
 
 ## Requirements
 ```
@@ -29,8 +29,5 @@ python3 generate_data.py
 5. Run training
 ```
 python3 main.py --config configs/config_file_name.yaml 
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> 4622bc85b80071380e9e15dd3aa4af6f21dd668b
+Model checkpoints will be released later.
