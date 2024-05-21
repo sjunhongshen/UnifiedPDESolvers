@@ -118,11 +118,9 @@ def load_pde(root, train_names, prev_t=1,  num_workers=4, size="base"):
         if not os.path.exists(dirname):    
             os.makedirs(dirname)
         train_data.x = train_data.x.cpu().numpy()
-        train_data.embeddings = train_data.embeddings.cpu().numpy()
         train_data.grid = train_data.grid.cpu().numpy()
         train_data.mask = train_data.mask.cpu().numpy()
 
-        np.save(dirname + "/" + size + "_embeddings.npy",train_data.embeddings[0])
         np.save(dirname + "/mask.npy",train_data.mask[0])
         np.save(dirname + "/grid.npy",train_data.grid[0])
         np.save(dirname + "/shape.npy",train_data.x.shape)
@@ -144,10 +142,8 @@ def load_pde(root, train_names, prev_t=1,  num_workers=4, size="base"):
         dirname = "datasets/mixed_data_test/" + dataset 
         val_data.x = val_data.x.cpu().numpy()
         val_data.grid = val_data.grid.cpu().numpy()
-        val_data.embeddings = val_data.embeddings.cpu().numpy()
         val_data.mask = val_data.mask.cpu().numpy()
 
-        np.save(dirname + "/" + size + "_embeddings.npy",val_data.embeddings[0])
         np.save(dirname + "/grid.npy",val_data.grid[0])
         np.save(dirname + "/mask.npy",val_data.mask[0])
         np.save(dirname + "/shape.npy",val_data.x.shape)
@@ -187,12 +183,11 @@ class UNetDatasetSingle(Dataset):
             flen = -5
             is_h5 = False
         self.flen = flen
-        text_path = os.path.abspath(saved_folder + "/" + filename[:flen] + ("_" + size + "_text.npy"))
-        self.embeddings = torch.from_numpy(np.load(text_path))
-
-        if self.embeddings.shape[1] < MAXLEN:
-            self.embeddings = torch.cat([self.embeddings, torch.stack([self.embeddings[:,-1,:]] * (MAXLEN - self.embeddings.shape[1]),1)],1)
-
+        text_path = os.path.abspath(saved_folder + "/mixed_data_train/" + dataset + ("/" + size + "_embeddings.npy"))
+        try:
+            self.embeddings = torch.from_numpy(np.load(text_path))
+        except:
+            pass
 
         if is_h5:
 
@@ -443,7 +438,10 @@ class UNetDatasetSingle(Dataset):
             print("2d->2d", self.x.shape, self.grid.shape, self.mask.shape)
         
         self.grid = torch.stack([self.grid] * self.x.shape[0])
-        self.embeddings = torch.cat([self.embeddings] * len(self.x))
+        try:
+            self.embeddings = torch.cat([self.embeddings] * len(self.x))
+        except:
+            pass
         self.mean, self.std = 0, 0
 
         print("Reduced res:", reduced_resolution, " Markov t:", self.prev_t, " Input shape:", self.x.shape, " grid shape:", self.grid.shape)
