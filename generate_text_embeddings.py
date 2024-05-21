@@ -12,8 +12,8 @@ for size in ['base', 'large']:
 
     for i, sent in enumerate(sents):
         tok = tokenizer(sent)["input_ids"]
-        if len(tok)<29:
-            tok += [tokenizer.eos_token_id]*(29-len(tok))
+        if len(tok) < 28:
+            tok += [tokenizer.eos_token_id]*(28 - len(tok))
         inid = model.embeddings(torch.from_numpy(np.array(tok)).unsqueeze(0)).detach().cpu().numpy()
         inid = inid[0]
         
