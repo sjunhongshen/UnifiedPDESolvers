@@ -292,6 +292,8 @@ def embedder_init(source, target, train_embedder=False, match_stats=False):
             target.norm.weight.data.copy_(source.LayerNorm.weight.data)
             target.norm.bias.data.copy_(source.LayerNorm.bias.data)
             target.position_embeddings = copy.deepcopy(source.position_embeddings)
+            target.norm2.weight.data.copy_(source.LayerNorm.weight.data)
+            target.norm2.bias.data.copy_(source.LayerNorm.bias.data)
 
     else:
         for n, m in target.named_modules():
